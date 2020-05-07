@@ -4,27 +4,32 @@ public class Customer
 {
     private String name;
     private String phoneNumber;
-    private String addres;
+    private String address;
 
+    // Sets the customer name
     public void setName(String name)
     {
         this.name = name;
     }
 
+    // Sets the customer phone number
     public void setPhoneNumber(String phoneNumber)
     {
         this.phoneNumber = phoneNumber;
     }
 
-    public void setAddres(String addres)
+    // Sets the customer address
+    public void setAddress(String address)
     {
-        this.addres = addres;
+        this.address = address;
     }
 
+    // Returns the customer information to print
     public String printCustomer()
     {
-        return this.name + "\n"
-                + this.phoneNumber + "\n"
-                + this.addres;
+        StringBuilder stringBuilder = new StringBuilder(100);
+        stringBuilder.append(name + phoneNumber + address);
+
+        return stringBuilder.toString();
     }
 }

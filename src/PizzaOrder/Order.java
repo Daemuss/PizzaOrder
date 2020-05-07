@@ -10,4 +10,10 @@ public class Order
     {
 
     }
+
+    // Returns the pizza order to print
+    public String printOrder()
+    {
+        return "Hi";
+    }
 }

@@ -4,7 +4,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 
-import javax.xml.soap.Text;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class OrderPane
@@ -21,9 +21,14 @@ public class OrderPane
 
     public OrderPane(GridPane p)
     {
+        customer = new Customer();
+
         this.setGridPaneSettings(p);
         this.createFXComponents();
         this.addToGridPane(p);
+        this.buttonPayEvent();
+        this.buttonAnotherEvent();
+        this.buttonCancelEvent();
     }
 
     // Set the grid pane settings
@@ -32,6 +37,7 @@ public class OrderPane
         p.setPadding(new Insets(10, 10, 100, 10));
     }
 
+    // Creates new FX components
     private void createFXComponents()
     {
         labelName = new Label("Name:");
@@ -50,6 +56,27 @@ public class OrderPane
         toggleCrust = new ToggleGroup();
     }
 
+    // Experimentation with the ArrayList
+    private void arrayListExperiment()
+    {
+        ArrayList<Size> pizzaSize = new ArrayList<>();
+
+        Size sizeOne = new Size();
+        sizeOne.setSizeName("Small");
+
+        Size sizeTwo = new Size();
+        sizeTwo.setSizeName("Big");
+
+        pizzaSize.add(sizeOne);
+        pizzaSize.add(sizeTwo);
+
+        for (Size size : pizzaSize)
+        {
+            System.out.println(size.getSizeName());
+        }
+    }
+
+    // Adds FX components to the GridPane
     private void addToGridPane(GridPane p)
     {
         p.add(labelName, 0, 0);
@@ -65,18 +92,31 @@ public class OrderPane
         p.add(buttonCancel, 2, 4);
     }
 
+    // Pay button handler
     private void buttonPayEvent()
     {
+        buttonPay.setOnAction(event -> {
+            customer.setName(textFieldName.getText());
+            customer.setPhoneNumber(textFieldNumber.getText());
+            customer.setAddress(textFieldAddress.getText());
 
+            System.out.println(customer.printCustomer());
+        });
     }
 
+    // Another button handler
     private void buttonAnotherEvent()
     {
-
+        buttonAnother.setOnAction(event ->  {
+            this.arrayListExperiment();
+        });
     }
 
+    // Cancel button handler
     private void buttonCancelEvent()
     {
+        buttonCancel.setOnAction(event -> {
 
+        });
     }
 }
