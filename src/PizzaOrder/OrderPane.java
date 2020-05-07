@@ -29,7 +29,7 @@ public class OrderPane
         this.buttonPayEvent();
         this.buttonAnotherEvent();
         this.buttonCancelEvent();
-        this.arrayListExperiment(p);
+        this.setSizeRadioButtons(p);
     }
 
     // Set the grid pane settings
