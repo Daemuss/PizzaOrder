@@ -24,6 +24,7 @@ public class OrderPane
     public OrderPane(GridPane p)
     {
         customer = new Customer();
+        pizzaList = new ArrayList<>();
 
         this.setGridPaneSettings(p);
         this.createFXComponents();
