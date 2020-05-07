@@ -25,10 +25,21 @@ public class Customer
     }
 
     // Returns the customer information to print
-    public String printCustomer()
+    public String getCustomerInformation()
     {
         StringBuilder stringBuilder = new StringBuilder(100);
-        stringBuilder.append(name + phoneNumber + address);
+        stringBuilder.append("CUSTOMER INFORMATION");
+        stringBuilder.append(System.lineSeparator());
+        stringBuilder.append("========================");
+        stringBuilder.append(System.lineSeparator());
+        stringBuilder.append("Name: ");
+        stringBuilder.append(name);
+        stringBuilder.append(System.lineSeparator());
+        stringBuilder.append("Phone number: ");
+        stringBuilder.append(phoneNumber);
+        stringBuilder.append(System.lineSeparator());
+        stringBuilder.append("Address: ");
+        stringBuilder.append(address);
 
         return stringBuilder.toString();
     }

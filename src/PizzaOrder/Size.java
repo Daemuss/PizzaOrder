@@ -2,10 +2,9 @@ package PizzaOrder;
 
 public class Size
 {
-    private String sizeName;
+    private final String sizeName;
 
-    // Sets the size name
-    public void setSizeName(String sizeName)
+    public Size(String sizeName)
     {
         this.sizeName = sizeName;
     }

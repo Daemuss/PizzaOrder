@@ -2,11 +2,15 @@ package PizzaOrder;
 
 public class Crust
 {
-    private String crustName;
+    private final String crustName;
 
-    // Sets the crust name
-    public void setCrustName(String crustName)
+    public Crust(String crustName)
     {
         this.crustName = crustName;
+    }
+
+    public String getCrustName()
+    {
+        return crustName;
     }
 }

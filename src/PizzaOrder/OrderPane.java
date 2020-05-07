@@ -29,6 +29,7 @@ public class OrderPane
         this.buttonPayEvent();
         this.buttonAnotherEvent();
         this.buttonCancelEvent();
+        this.arrayListExperiment(p);
     }
 
     // Set the grid pane settings
@@ -56,23 +57,25 @@ public class OrderPane
         toggleCrust = new ToggleGroup();
     }
 
-    // Experimentation with the ArrayList
-    private void arrayListExperiment()
+    // Create new radio buttons and add them to the GridPane
+    private void setSizeRadioButtons(GridPane p)
     {
+        int i = 0;
         ArrayList<Size> pizzaSize = new ArrayList<>();
 
-        Size sizeOne = new Size();
-        sizeOne.setSizeName("Small");
+        Size smallSize = new Size("Small");
+        Size bigSize = new Size("Big");
 
-        Size sizeTwo = new Size();
-        sizeTwo.setSizeName("Big");
-
-        pizzaSize.add(sizeOne);
-        pizzaSize.add(sizeTwo);
+        pizzaSize.add(smallSize);
+        pizzaSize.add(bigSize);
 
         for (Size size : pizzaSize)
         {
-            System.out.println(size.getSizeName());
+            i += 1;
+            RadioButton rb = new RadioButton(size.getSizeName());
+            rb.setToggleGroup(toggleSize);
+
+            p.add(rb, 0, 3 + i);
         }
     }
 
@@ -87,9 +90,9 @@ public class OrderPane
         p.add(textFieldNumber, 1, 1);
         p.add(textFieldAddress, 1, 2);
 
-        p.add(buttonPay, 0, 4);
-        p.add(buttonAnother, 1, 4);
-        p.add(buttonCancel, 2, 4);
+        p.add(buttonPay, 0, 6);
+        p.add(buttonAnother, 1, 6);
+        p.add(buttonCancel, 2, 6);
     }
 
     // Pay button handler
@@ -100,7 +103,7 @@ public class OrderPane
             customer.setPhoneNumber(textFieldNumber.getText());
             customer.setAddress(textFieldAddress.getText());
 
-            System.out.println(customer.printCustomer());
+            System.out.println(customer.getCustomerInformation());
         });
     }
 
@@ -108,7 +111,7 @@ public class OrderPane
     private void buttonAnotherEvent()
     {
         buttonAnother.setOnAction(event ->  {
-            this.arrayListExperiment();
+
         });
     }
 

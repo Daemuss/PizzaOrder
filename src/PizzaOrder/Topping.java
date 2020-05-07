@@ -2,11 +2,15 @@ package PizzaOrder;
 
 public class Topping
 {
-    private String toppingName;
+    private final String toppingName;
 
-    // Sets the topping name
-    public void setToppingName(String toppingName)
+    public Topping(String toppingName)
     {
         this.toppingName = toppingName;
+    }
+
+    public String getToppingName()
+    {
+        return toppingName;
     }
 }
