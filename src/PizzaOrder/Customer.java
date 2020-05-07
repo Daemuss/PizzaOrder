@@ -40,6 +40,7 @@ public class Customer
         stringBuilder.append(System.lineSeparator());
         stringBuilder.append("Address: ");
         stringBuilder.append(address);
+        stringBuilder.append(System.lineSeparator());
 
         return stringBuilder.toString();
     }

@@ -1,5 +1,6 @@
 package PizzaOrder;
 
+import com.sun.org.apache.xpath.internal.operations.Or;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
@@ -11,6 +12,7 @@ public class OrderPane
 {
     private Customer customer;
     private Order order;
+    private ArrayList<Pizza> pizzaList;
     private ArrayList<Size> sizeList;
     private ArrayList<Crust> crustList;
     private ArrayList<Topping> toppingList;
@@ -30,6 +32,7 @@ public class OrderPane
         this.buttonAnotherEvent();
         this.buttonCancelEvent();
         this.setSizeRadioButtons(p);
+        this.setCrustRadioButton(p);
     }
 
     // Set the grid pane settings
@@ -79,6 +82,26 @@ public class OrderPane
         }
     }
 
+    private void setCrustRadioButton(GridPane p)
+    {
+        int i = 0;
+        ArrayList<Crust> pizzaCrust = new ArrayList<>();
+
+        Crust crustThin = new Crust("Thin");
+        Crust crustThick = new Crust("Thick");
+
+        pizzaCrust.add(crustThin);
+        pizzaCrust.add(crustThick);
+
+        for (Crust crust : pizzaCrust)
+        {
+            i += 1;
+            RadioButton rb = new RadioButton(crust.getCrustName());
+
+            p.add(rb, 1, 3 + i);
+        }
+    }
+
     // Adds FX components to the GridPane
     private void addToGridPane(GridPane p)
     {
@@ -103,7 +126,7 @@ public class OrderPane
             customer.setPhoneNumber(textFieldNumber.getText());
             customer.setAddress(textFieldAddress.getText());
 
-            System.out.println(customer.getCustomerInformation());
+            System.out.println(customer.getCustomerInformation() + order.getOrderInformation());
         });
     }
 
@@ -111,7 +134,12 @@ public class OrderPane
     private void buttonAnotherEvent()
     {
         buttonAnother.setOnAction(event ->  {
+            order = new Order(pizzaList);
+            Pizza pizza = new Pizza();
+            Size size = new Size("Small");
+            pizza.setPizzaSize(size);
 
+            pizzaList.add(pizza);
         });
     }
 
