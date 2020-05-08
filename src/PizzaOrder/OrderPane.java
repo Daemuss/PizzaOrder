@@ -1,18 +1,19 @@
 package PizzaOrder;
 
-import com.sun.org.apache.xpath.internal.operations.Or;
 import javafx.geometry.Insets;
+import javafx.scene.Group;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class OrderPane
 {
     private Customer customer;
     private Order order;
-    private ArrayList<Pizza> pizzaList;
     private ArrayList<Size> sizeList;
     private ArrayList<Crust> crustList;
     private ArrayList<Topping> toppingList;
@@ -20,11 +21,13 @@ public class OrderPane
     private TextField textFieldName, textFieldNumber, textFieldAddress;
     private Button buttonPay, buttonAnother, buttonCancel;
     private ToggleGroup toggleSize, toggleCrust;
+    private ToggleGroup toppingGroup;
+    private CheckBox checkBox;
 
     public OrderPane(GridPane p)
     {
         customer = new Customer();
-        pizzaList = new ArrayList<>();
+        order = new Order();
 
         this.setGridPaneSettings(p);
         this.createFXComponents();
@@ -34,6 +37,7 @@ public class OrderPane
         this.buttonCancelEvent();
         this.setSizeRadioButtons(p);
         this.setCrustRadioButton(p);
+        this.setToppingCheckboxes(p);
     }
 
     // Set the grid pane settings
@@ -59,24 +63,29 @@ public class OrderPane
 
         toggleSize = new ToggleGroup();
         toggleCrust = new ToggleGroup();
+
+        toppingGroup = new ToggleGroup();
     }
 
     // Create new radio buttons and add them to the GridPane
     private void setSizeRadioButtons(GridPane p)
     {
         int i = 0;
-        ArrayList<Size> pizzaSize = new ArrayList<>();
+        sizeList = new ArrayList<>();
 
         Size smallSize = new Size("Small");
+        Size mediumSize = new Size("Medium");
         Size bigSize = new Size("Big");
 
-        pizzaSize.add(smallSize);
-        pizzaSize.add(bigSize);
+        sizeList.add(smallSize);
+        sizeList.add(mediumSize);
+        sizeList.add(bigSize);
 
-        for (Size size : pizzaSize)
+        for (Size size : sizeList)
         {
             i += 1;
             RadioButton rb = new RadioButton(size.getSizeName());
+            rb.setUserData(size.getSizeName());
             rb.setToggleGroup(toggleSize);
 
             p.add(rb, 0, 3 + i);
@@ -86,20 +95,44 @@ public class OrderPane
     private void setCrustRadioButton(GridPane p)
     {
         int i = 0;
-        ArrayList<Crust> pizzaCrust = new ArrayList<>();
+        crustList = new ArrayList<>();
 
         Crust crustThin = new Crust("Thin");
         Crust crustThick = new Crust("Thick");
 
-        pizzaCrust.add(crustThin);
-        pizzaCrust.add(crustThick);
+        crustList.add(crustThin);
+        crustList.add(crustThick);
 
-        for (Crust crust : pizzaCrust)
+        for (Crust crust : crustList)
         {
             i += 1;
             RadioButton rb = new RadioButton(crust.getCrustName());
+            rb.setUserData(crust.getCrustName());
+            rb.setToggleGroup(toggleCrust);
 
             p.add(rb, 1, 3 + i);
+        }
+    }
+
+    private void setToppingCheckboxes(GridPane p)
+    {
+        int i = 0;
+        toppingList = new ArrayList<>();
+
+        Topping toppingPepperoni = new Topping("Pepperoni");
+        Topping toppingMushrooms = new Topping("Mushrooms");
+        Topping toppingAnchovies = new Topping("Anchovies");
+
+        toppingList.add(toppingPepperoni);
+        toppingList.add(toppingMushrooms);
+        toppingList.add(toppingAnchovies);
+
+        for (Topping topping : toppingList)
+        {
+            i += 1;
+            checkBox = new CheckBox(topping.getToppingName());
+
+            p.add(checkBox, 2, 3 + i);
         }
     }
 
@@ -114,9 +147,28 @@ public class OrderPane
         p.add(textFieldNumber, 1, 1);
         p.add(textFieldAddress, 1, 2);
 
-        p.add(buttonPay, 0, 6);
-        p.add(buttonAnother, 1, 6);
-        p.add(buttonCancel, 2, 6);
+        p.add(buttonPay, 0, 7);
+        p.add(buttonAnother, 1, 7);
+        p.add(buttonCancel, 2, 7);
+    }
+
+    // Adds pizza to order
+    private void addToOrder()
+    {
+        Pizza pizza = new Pizza();
+        order.getPizzaList().add(pizza);
+        Size size = new Size(toggleSize.getSelectedToggle().getUserData().toString());
+        Crust crust = new Crust(toggleCrust.getSelectedToggle().getUserData().toString());
+        Topping topping = new Topping(checkBox.getText());
+        pizza.setPizzaSize(size);
+        pizza.setPizzaCrust(crust);
+        pizza.setPizzaTopping(topping);
+    }
+
+    // Prints a receipt
+    private void printReceipt()
+    {
+        System.out.println(customer.getCustomerInformation() + order.getOrderInformation());
     }
 
     // Pay button handler
@@ -127,7 +179,13 @@ public class OrderPane
             customer.setPhoneNumber(textFieldNumber.getText());
             customer.setAddress(textFieldAddress.getText());
 
-            System.out.println(customer.getCustomerInformation() + order.getOrderInformation());
+            if(order.getPizzaList().size() == 0)
+            {
+                this.addToOrder();
+            }
+            this.printReceipt();
+
+            order.getPizzaList().removeAll(order.getPizzaList());
         });
     }
 
@@ -135,12 +193,7 @@ public class OrderPane
     private void buttonAnotherEvent()
     {
         buttonAnother.setOnAction(event ->  {
-            order = new Order(pizzaList);
-            Pizza pizza = new Pizza();
-            Size size = new Size("Small");
-            pizza.setPizzaSize(size);
-
-            pizzaList.add(pizza);
+            this.addToOrder();
         });
     }
 
@@ -148,7 +201,10 @@ public class OrderPane
     private void buttonCancelEvent()
     {
         buttonCancel.setOnAction(event -> {
-
+            textFieldName.setText("");
+            textFieldNumber.setText("");
+            textFieldAddress.setText("");
+            order.getPizzaList().removeAll(order.getPizzaList());
         });
     }
 }

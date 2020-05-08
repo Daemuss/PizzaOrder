@@ -1,14 +1,20 @@
 package PizzaOrder;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Order
 {
     private ArrayList<Pizza> pizzaList;
 
-    public Order(ArrayList<Pizza> pizzaList)
+    public Order()
     {
-        this.pizzaList = pizzaList;
+        this.pizzaList = new ArrayList<>();
+    }
+
+    public ArrayList<Pizza> getPizzaList()
+    {
+        return pizzaList;
     }
 
     // Returns the pizza order to print
@@ -17,10 +23,20 @@ public class Order
         StringBuilder stringBuilder = new StringBuilder(100);
         stringBuilder.append("========================");
         stringBuilder.append(System.lineSeparator());
+        stringBuilder.append("ORDER");
+        stringBuilder.append(System.lineSeparator());
+        stringBuilder.append("========================");
+        stringBuilder.append(System.lineSeparator());
 
         for (Pizza pizza : pizzaList)
         {
+            stringBuilder.append("Size: ");
             stringBuilder.append(pizza.getPizzaSize().getSizeName());
+            stringBuilder.append(", Crust: ");
+            stringBuilder.append(pizza.getPizzaCrust().getCrustName());
+            stringBuilder.append(", Topping: ");
+//            stringBuilder.append(pizza.getPizzaTopping().getToppingName());
+            stringBuilder.append(System.lineSeparator());
         }
 
         return stringBuilder.toString();
