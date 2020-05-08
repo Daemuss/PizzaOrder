@@ -12,9 +12,14 @@ public class Order
         this.pizzaList = new ArrayList<>();
     }
 
-    public ArrayList<Pizza> getPizzaList()
+    public void addPizza(Pizza pizza)
     {
-        return pizzaList;
+        this.pizzaList.add(pizza);
+    }
+
+    public int getAmountPizza()
+    {
+        return this.pizzaList.size();
     }
 
     // Returns the pizza order to print

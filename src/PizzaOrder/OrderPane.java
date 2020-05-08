@@ -67,6 +67,12 @@ public class OrderPane
         toppingGroup = new ToggleGroup();
     }
 
+    // Returns the selected pizza size
+    public Size getSelectedSize()
+    {
+        return (Size) toggleSize.getSelectedToggle().getUserData();
+    }
+
     // Create new radio buttons and add them to the GridPane
     private void setSizeRadioButtons(GridPane p)
     {
@@ -85,13 +91,20 @@ public class OrderPane
         {
             i += 1;
             RadioButton rb = new RadioButton(size.getSizeName());
-            rb.setUserData(size.getSizeName());
+            rb.setUserData(size);
             rb.setToggleGroup(toggleSize);
 
             p.add(rb, 0, 3 + i);
         }
     }
 
+    // Returns the selected pizza crust
+    public Crust getSelectedCrust()
+    {
+        return (Crust) toggleCrust.getSelectedToggle().getUserData();
+    }
+
+    // Set the crusted radio buttons
     private void setCrustRadioButton(GridPane p)
     {
         int i = 0;
@@ -107,13 +120,14 @@ public class OrderPane
         {
             i += 1;
             RadioButton rb = new RadioButton(crust.getCrustName());
-            rb.setUserData(crust.getCrustName());
+            rb.setUserData(crust);
             rb.setToggleGroup(toggleCrust);
 
             p.add(rb, 1, 3 + i);
         }
     }
 
+    // Sets the topping checkboxes
     private void setToppingCheckboxes(GridPane p)
     {
         int i = 0;
@@ -156,13 +170,13 @@ public class OrderPane
     private void addToOrder()
     {
         Pizza pizza = new Pizza();
-        order.getPizzaList().add(pizza);
-        Size size = new Size(toggleSize.getSelectedToggle().getUserData().toString());
-        Crust crust = new Crust(toggleCrust.getSelectedToggle().getUserData().toString());
+        Size size = new Size(this.getSelectedSize().getSizeName());
+        Crust crust = new Crust(this.getSelectedCrust().getCrustName());
         Topping topping = new Topping(checkBox.getText());
         pizza.setPizzaSize(size);
         pizza.setPizzaCrust(crust);
         pizza.setPizzaTopping(topping);
+        order.addPizza(pizza);
     }
 
     // Prints a receipt
@@ -179,13 +193,13 @@ public class OrderPane
             customer.setPhoneNumber(textFieldNumber.getText());
             customer.setAddress(textFieldAddress.getText());
 
-            if(order.getPizzaList().size() == 0)
+            if(order.getAmountPizza() == 0)
             {
                 this.addToOrder();
             }
             this.printReceipt();
 
-            order.getPizzaList().removeAll(order.getPizzaList());
+            order = new Order();
         });
     }
 
@@ -204,7 +218,7 @@ public class OrderPane
             textFieldName.setText("");
             textFieldNumber.setText("");
             textFieldAddress.setText("");
-            order.getPizzaList().removeAll(order.getPizzaList());
+            order = new Order();
         });
     }
 }
