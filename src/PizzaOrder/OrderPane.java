@@ -1,7 +1,6 @@
 package PizzaOrder;
 
 import javafx.geometry.Insets;
-import javafx.scene.Group;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -21,8 +20,9 @@ public class OrderPane
     private TextField textFieldName, textFieldNumber, textFieldAddress;
     private Button buttonPay, buttonAnother, buttonCancel;
     private ToggleGroup toggleSize, toggleCrust;
-    private ToggleGroup toppingGroup;
     private CheckBox checkBox;
+    private ArrayList<CheckBox> checkBoxList;
+    private ArrayList<Topping> selectedToppingsList;
 
     public OrderPane(GridPane p)
     {
@@ -63,8 +63,6 @@ public class OrderPane
 
         toggleSize = new ToggleGroup();
         toggleCrust = new ToggleGroup();
-
-        toppingGroup = new ToggleGroup();
     }
 
     // Returns the selected pizza size
@@ -132,6 +130,7 @@ public class OrderPane
     {
         int i = 0;
         toppingList = new ArrayList<>();
+        checkBoxList = new ArrayList<>();
 
         Topping toppingPepperoni = new Topping("Pepperoni");
         Topping toppingMushrooms = new Topping("Mushrooms");
@@ -143,10 +142,15 @@ public class OrderPane
 
         for (Topping topping : toppingList)
         {
-            i += 1;
             checkBox = new CheckBox(topping.getToppingName());
+            checkBoxList.add(checkBox);
+        }
 
-            p.add(checkBox, 2, 3 + i);
+        for (CheckBox checkBoxes : checkBoxList)
+        {
+            i += 1;
+
+            p.add(checkBoxes, 2, 3 + i);
         }
     }
 
@@ -167,15 +171,25 @@ public class OrderPane
     }
 
     // Adds pizza to order
-    private void addToOrder()
+    private void addPizzaToOrder()
     {
         Pizza pizza = new Pizza();
         Size size = new Size(this.getSelectedSize().getSizeName());
         Crust crust = new Crust(this.getSelectedCrust().getCrustName());
-        Topping topping = new Topping(checkBox.getText());
+        selectedToppingsList = new ArrayList<>();
+
+        for (CheckBox checkBox : checkBoxList)
+        {
+            if (checkBox.isSelected())
+            {
+                Topping topping = new Topping(checkBox.getText());
+                selectedToppingsList.add(topping);
+                pizza.setPizzaToppingList(selectedToppingsList);
+            }
+        }
+
         pizza.setPizzaSize(size);
         pizza.setPizzaCrust(crust);
-        pizza.setPizzaTopping(topping);
         order.addPizza(pizza);
     }
 
@@ -195,10 +209,11 @@ public class OrderPane
 
             if(order.getAmountPizza() == 0)
             {
-                this.addToOrder();
+                this.addPizzaToOrder();
             }
             this.printReceipt();
 
+            customer = new Customer();
             order = new Order();
         });
     }
@@ -207,7 +222,7 @@ public class OrderPane
     private void buttonAnotherEvent()
     {
         buttonAnother.setOnAction(event ->  {
-            this.addToOrder();
+            this.addPizzaToOrder();
         });
     }
 
@@ -218,6 +233,7 @@ public class OrderPane
             textFieldName.setText("");
             textFieldNumber.setText("");
             textFieldAddress.setText("");
+            customer = new Customer();
             order = new Order();
         });
     }

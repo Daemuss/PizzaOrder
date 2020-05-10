@@ -1,10 +1,12 @@
 package PizzaOrder;
 
+import java.util.ArrayList;
+
 public class Pizza
 {
     private Size pizzaSize;
     private Crust pizzaCrust;
-    private Topping pizzaTopping;
+    private ArrayList<Topping> pizzaTopping;
 
     public Pizza()
     {
@@ -23,8 +25,8 @@ public class Pizza
         this.pizzaCrust = pizzaCrust;
     }
 
-    // Sets the pizza topping
-    public void setPizzaTopping(Topping pizzaTopping)
+    // Sets the pizza topping list
+    public void setPizzaToppingList(ArrayList<Topping> pizzaTopping)
     {
         this.pizzaTopping = pizzaTopping;
     }
@@ -41,8 +43,8 @@ public class Pizza
         return pizzaCrust;
     }
 
-    // Returns the pizza topping
-    public Topping getPizzaTopping()
+    // Returns a list with pizza toppings
+    public ArrayList<Topping> getPizzaToppingList()
     {
         return pizzaTopping;
     }

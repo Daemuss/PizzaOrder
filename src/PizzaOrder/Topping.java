@@ -9,6 +9,7 @@ public class Topping
         this.toppingName = toppingName;
     }
 
+    // Returns the topping name
     public String getToppingName()
     {
         return toppingName;

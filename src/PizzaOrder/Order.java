@@ -1,6 +1,5 @@
 package PizzaOrder;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Order
@@ -17,6 +16,7 @@ public class Order
         this.pizzaList.add(pizza);
     }
 
+    // Returns the amount of pizza's added to the order
     public int getAmountPizza()
     {
         return this.pizzaList.size();
@@ -40,7 +40,11 @@ public class Order
             stringBuilder.append(", Crust: ");
             stringBuilder.append(pizza.getPizzaCrust().getCrustName());
             stringBuilder.append(", Topping: ");
-//            stringBuilder.append(pizza.getPizzaTopping().getToppingName());
+            for (Topping topping : pizza.getPizzaToppingList())
+            {
+                stringBuilder.append(topping.getToppingName());
+                stringBuilder.append(", ");
+            }
             stringBuilder.append(System.lineSeparator());
         }
 
